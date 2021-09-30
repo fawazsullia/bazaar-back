@@ -4,7 +4,7 @@ const cors = require('cors')
 const PORT = process.env.PORT || 5000;
 const mongoose = require('mongoose')
 require("dotenv").config();
-const uri = "mongodb+srv://fawazsullia:kenkaneki13@cluster0.s30gm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const uri = process.env.URI
 
 app.use(cors());
 
