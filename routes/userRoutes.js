@@ -137,14 +137,15 @@ catch(err){
 
 router.put('/orders', async (req, res)=>{
 
-const { uid, date, productId, title, count, total, status  } = req.body
+const { uid, date, productId, title, count, total, status, image  } = req.body
 const data = {
     productId : productId,
     title : title,
     count : count,
     total : total,
     date : date,
-    status : status
+    status : status,
+    image : image
 }
 
 try{
