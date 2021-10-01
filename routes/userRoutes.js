@@ -133,6 +133,58 @@ catch(err){
 })
 
 
+//track user orders
+
+router.put('/orders', async (req, res)=>{
+
+const { uid, date, productId, title, count, total, status  } = req.body
+const data = {
+    productId : productId,
+    title : title,
+    count : count,
+    total : total,
+    date : date,
+    status : status
+}
+
+try{
+  
+await UserModel.findOneAndUpdate({ uid : uid},  {$push : { orders : { $each : [data], $position : 0} }} )
+await UserModel.findOneAndUpdate({ uid : uid }, { $pull: { cart: {}} } )
+
+await res.status(200).json({status : true, message : "Order Updated"}).end()
+
+}
+catch(err){
+res.status(500).json({status : false, message : "Failed to order"})
+}
+
+
+
+})
+
+
+//get orders of a user
+
+router.get('/orders/:id', async (req,res)=> {
+    const uid = req.url.replace("/orders/","").trim();
+
+    try{
+
+      const orders =  await UserModel.findOne({uid : uid}, 'orders').exec()
+      console.log(orders)
+        await res.status(200).json({status : true, orders : orders }).end()
+
+
+    }
+    catch(err){
+        res.status(500).json({status : false, message : "Could not retrieve orders"}).end()
+    }
+
+
+})
+
+
 
 
  module.exports = router
